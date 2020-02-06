@@ -70,7 +70,9 @@ class CVService {
 
     private fun updateCV(cv: CVEntity?) {
 
-        Log.i("CVSvc", "CV load successful")
+        Log.i("CVSvc", String.format("Cv title: %s", cv?.title))
+
+        cvData.value = cv
 
     }
 

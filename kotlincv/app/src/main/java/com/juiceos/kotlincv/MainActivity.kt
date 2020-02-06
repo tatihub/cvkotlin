@@ -12,7 +12,7 @@ import com.juiceos.kotlincv.db.entity.CVEntity
 import com.juiceos.kotlincv.models.CVViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.cv_content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpData() {
 
+        cvAdapter = CVAdapter()
+
         val observer = Observer<CVEntity>{
                 cv -> updateCV(cv)
         }
@@ -39,28 +41,27 @@ class MainActivity : AppCompatActivity() {
         cvModel = CVViewModel(application)
         cvModel?.getCVObservable()?.observe(this, observer)
 
-        cvAdapter = CVAdapter()
-
     }
 
     private fun updateCV(cv: CVEntity?) {
 
         if(cv == null){
 
-            this.mainActivityProgress.visibility = View.VISIBLE;
-            this.mainActivitySectionsGrid.visibility = View.GONE;
+            this.mainActivityProgress.visibility = View.VISIBLE
+            this.mainActivitySectionsGrid.visibility = View.GONE
 
         } else {
 
             this.mainActivityProgress.visibility = View.GONE;
-            this.mainActivitySectionsGrid.visibility = View.VISIBLE;
+            this.mainActivitySectionsGrid.visibility = View.VISIBLE
+            val spanCount: Int = this.resources.getInteger(R.integer.cvGridSpanCount)
 
             title = cv.title
             cvAdapter.cv = cv
 
             if(mainActivitySectionsGrid.adapter == null){
 
-                val cvLayoutManager = GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
+                val cvLayoutManager = GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false)
 
                 mainActivitySectionsGrid.apply {
 
@@ -74,12 +75,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
     }
 
 }
