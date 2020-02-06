@@ -6,9 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.juiceos.kotlincv.db.entity.CVEntity
 import com.juiceos.kotlincv.models.CVViewModel
-import com.juiceos.kotlincv.services.CVService
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     // TODO: make getter..
     private var cvModel : CVViewModel? = null
+    private lateinit var cvAdapter : CVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         updateCV(null);
-        setUpLiveData()
+        setUpData()
 
     }
 
-    private fun setUpLiveData() {
+    private fun setUpData() {
 
         val observer = Observer<CVEntity>{
                 cv -> updateCV(cv)
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         cvModel = CVViewModel(application)
         cvModel?.getCVObservable()?.observe(this, observer)
+
+        cvAdapter = CVAdapter()
 
     }
 
@@ -52,6 +56,21 @@ class MainActivity : AppCompatActivity() {
             this.mainActivitySectionsGrid.visibility = View.VISIBLE;
 
             title = cv.title
+            cvAdapter.cv = cv
+
+            if(mainActivitySectionsGrid.adapter == null){
+
+                val cvLayoutManager = GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
+
+                mainActivitySectionsGrid.apply {
+
+                    layoutManager = cvLayoutManager
+                    adapter = cvAdapter
+
+                }
+
+            } else
+                cvAdapter.notifyDataSetChanged()
 
         }
 
@@ -63,13 +82,4 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }

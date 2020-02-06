@@ -9,7 +9,7 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <GridLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainActivitySectionsGrid"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
@@ -22,8 +22,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="@dimen/progress_bar_size"
-        android:layout_height="@dimen/progress_bar_size"
+        android:layout_width="@dimen/cv_progress_bar_size"
+        android:layout_height="@dimen/cv_progress_bar_size"
         style="@style/Widget.AppCompat.ProgressBar"
         />
 

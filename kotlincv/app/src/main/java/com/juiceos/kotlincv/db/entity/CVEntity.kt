@@ -1,8 +1,8 @@
 package com.juiceos.kotlincv.db.entity
 
-import androidx.room.PrimaryKey
-
-data class CVEntity(
-    @PrimaryKey val cvId : String,
+class CVEntity(
+    val cvId : String,
     val title : String
-)
+){
+    val sections: MutableList<CVSectionEntity> = ArrayList()
+}
