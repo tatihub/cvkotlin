@@ -27,4 +27,13 @@
         style="@style/Widget.AppCompat.ProgressBar"
         />
 
+    <TextView
+        android:id="@+id/mainActivityCvError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="@dimen/cv_section_padding"
+        android:textColor="@android:color/holo_red_dark"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

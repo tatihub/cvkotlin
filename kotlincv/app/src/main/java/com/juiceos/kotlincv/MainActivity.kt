@@ -1,13 +1,11 @@
 package com.juiceos.kotlincv
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.juiceos.kotlincv.db.entity.CVEntity
 import com.juiceos.kotlincv.models.CVViewModel
 
@@ -25,7 +23,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        updateCV(null);
+        // first show loading
+        updateUI(null)
+
+        // download cv & other data ops
         setUpData()
 
     }
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         cvAdapter = CVAdapter()
 
         val observer = Observer<CVEntity>{
-                cv -> updateCV(cv)
+                cv -> updateUI(cv)
         }
 
         cvModel = CVViewModel(application)
@@ -43,35 +44,59 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun updateCV(cv: CVEntity?) {
+    override fun onDestroy() {
+        super.onDestroy()
+        cvModel?.dispose()
+    }
+
+    private fun updateUI(cv: CVEntity?) {
 
         if(cv == null){
 
+            // we don't have cv, show loading and wait.
             this.mainActivityProgress.visibility = View.VISIBLE
             this.mainActivitySectionsGrid.visibility = View.GONE
+            this.mainActivityCvError.visibility = View.GONE
 
         } else {
 
-            this.mainActivityProgress.visibility = View.GONE;
-            this.mainActivitySectionsGrid.visibility = View.VISIBLE
-            val spanCount: Int = this.resources.getInteger(R.integer.cvGridSpanCount)
+            // we have cv.
+            this.mainActivityProgress.visibility = View.GONE
+            this.mainActivitySectionsGrid.visibility = if(cv.error == 0){ View.VISIBLE } else View.GONE
+            this.mainActivityCvError.visibility = if(cv.error > 0){ View.VISIBLE } else View.GONE
 
-            title = cv.title
-            cvAdapter.cv = cv
+            this.mainActivityCvError.text = cv.errorMessage
+            title = cv.title ?: getString(R.string.cv_untiled)
 
-            if(mainActivitySectionsGrid.adapter == null){
+            if(cv.error == 0) {
 
-                val cvLayoutManager = GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false)
+                // and it's not invalid.
 
-                mainActivitySectionsGrid.apply {
+                val spanCount: Int = this.resources.getInteger(R.integer.cvGridSpanCount)
 
-                    layoutManager = cvLayoutManager
-                    adapter = cvAdapter
+                cvAdapter.cv = cv
+
+                if (mainActivitySectionsGrid.adapter != cvAdapter) {
+
+                    Log.i("CVSvc", "Adding adapter")
+
+                    val cvLayoutManager =
+                        GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false)
+
+                    mainActivitySectionsGrid.apply {
+
+                        layoutManager = cvLayoutManager
+                        adapter = cvAdapter
+
+                    }
+
+                } else {
+
+                    Log.i("CVSvc", "Updating adapter")
+                    cvAdapter.notifyDataSetChanged()
 
                 }
-
-            } else
-                cvAdapter.notifyDataSetChanged()
+            }
 
         }
 
