@@ -2,19 +2,18 @@ package com.juiceos.kotlincv
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.juiceos.kotlincv.db.entity.CVEntity
 import com.juiceos.kotlincv.models.CVViewModel
-
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.cv_content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    // TODO: make getter..
     private var cvModel : CVViewModel? = null
     private lateinit var cvAdapter : CVAdapter
 
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             this.mainActivityCvError.visibility = if(cv.error > 0){ View.VISIBLE } else View.GONE
 
             this.mainActivityCvError.text = cv.errorMessage
-            title = cv.title ?: getString(R.string.cv_untiled)
+            title = HtmlCompat.fromHtml(cv.title ?: getString(R.string.cv_untiled), HtmlCompat.FROM_HTML_MODE_LEGACY)
 
             if(cv.error == 0) {
 

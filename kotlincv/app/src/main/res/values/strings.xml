@@ -4,4 +4,6 @@
     <string name="cv_section_date">Date</string>
     <string name="cv_section_title">Section Title</string>
     <string name="cv_untiled">Untitled</string>
+    <string name="section_title">Section Title</string>
+    <string name="seciton_details">Section Details</string>
 </resources>

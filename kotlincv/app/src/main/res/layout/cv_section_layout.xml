@@ -24,6 +24,8 @@
         app:layout_constraintTop_toBottomOf="@+id/cvSectionDate"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="10dp"
+        android:textSize="@dimen/cv_section_text_size"
+        android:contentDescription="@string/section_title"
         />
 
     <TextView
@@ -32,6 +34,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/cvSectionTitle"
         app:layout_constraintLeft_toLeftOf="@id/cvSectionTitle"
+        android:textSize="@dimen/cv_details_text_size"
+        android:contentDescription="@string/seciton_details"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

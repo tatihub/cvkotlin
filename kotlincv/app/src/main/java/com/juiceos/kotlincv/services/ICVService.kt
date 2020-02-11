@@ -9,7 +9,7 @@ import retrofit2.http.GET
 
 interface ICVService{
 
-    @GET("a90ea35867895249243dc203e40050ba/raw/615fda0639a623f3ffc78950998f368edb78718f/cvkotlin.json")
+    @GET("a90ea35867895249243dc203e40050ba/raw/9afd93c878abd08358553653cdef7aaa6cfa1deb/cvkotlin.json")
     fun getCV() : Observable<CVEntity>
 
     companion object {
