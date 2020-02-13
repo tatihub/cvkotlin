@@ -21,8 +21,6 @@ class CVService {
 
     fun getLiveCV(): LiveData<CVEntity> {
 
-        Log.i("CVSvc", "Getting live CV")
-
         cvData = MutableLiveData()
 
         downloadCV()
@@ -39,13 +37,9 @@ class CVService {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({cv -> updateCV(cv)}, {error -> showError(error)})
 
-        Log.i("CVSvc", "Download CV")
-
     }
 
     private fun showError(error: Throwable?) {
-
-        Log.e("CVSvc", String.format("Error loading cv %s", error?.message))
 
         val errorCv = CVEntity()
         errorCv.error = 1
@@ -56,8 +50,6 @@ class CVService {
     }
 
     private fun updateCV(cv: CVEntity?) {
-
-        Log.i("CVSvc", String.format("Cv title: %s", cv?.title))
 
         cvData.value = cv
 
