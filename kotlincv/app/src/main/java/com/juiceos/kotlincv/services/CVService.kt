@@ -9,7 +9,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-// TODO: change this to singleton
 class CVService {
 
     private var query: String? = null
@@ -61,39 +60,43 @@ class CVService {
 
     }
 
-    private fun applyCVFilter(cv: CVEntity?, query: String?): CVEntity? {
+    companion object{
 
-        if(cv == null)
-            return  null
+        fun applyCVFilter(cv: CVEntity?, query: String?): CVEntity? {
 
-        if(query != null && query.isNotEmpty()){
+            if(cv == null)
+                return  null
 
-            for (cvIdx in cv.sections.size - 1 downTo 0){
+            if(query != null && query.isNotEmpty()){
 
-                if(!foundText(cv.sections[cvIdx].title, query))
-                    if(!foundText(cv.sections[cvIdx].details, query))
-                        cv.sections.removeAt(cvIdx)
+                for (cvIdx in cv.sections.size - 1 downTo 0){
 
-            }
+                    if(!foundText(cv.sections[cvIdx].title, query))
+                        if(!foundText(cv.sections[cvIdx].details, query))
+                            cv.sections.removeAt(cvIdx)
 
-            cv.message = "Found ${cv.sections.size} results in filter"
+                }
 
-        } else
-            cv.message = null
+                cv.message = "Found ${cv.sections.size} results in filter"
 
-        return  cv
+            } else
+                cv.message = null
 
-    }
+            return  cv
 
-    private fun foundText(hay: String?, needle: String?): Boolean {
+        }
 
-        if(hay == null)
-            return false
+        fun foundText(hay: String?, needle: String?): Boolean {
 
-        if(needle == null)
-            return  false
+            if(hay == null || hay.isEmpty())
+                return false
 
-        return hay.toLowerCase(Locale.US).contains(needle.toLowerCase(Locale.US))
+            if(needle == null || needle.isEmpty())
+                return  false
+
+            return hay.toLowerCase(Locale.US).contains(needle.toLowerCase(Locale.US))
+
+        }
 
     }
 

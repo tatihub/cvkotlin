@@ -18,11 +18,6 @@ import com.juiceos.kotlincv.db.entity.CVEntity
 import com.juiceos.kotlincv.models.CVViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.cv_content_main.*
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
 
 class MainActivity : AppCompatActivity(), TextWatcher, View.OnClickListener,
     TextView.OnEditorActionListener {
@@ -127,6 +122,7 @@ class MainActivity : AppCompatActivity(), TextWatcher, View.OnClickListener,
 
     }
 
+    // TODO: test visibility
     private fun updateMessageText(message: String?) {
 
         mainActivityMessage.text = message
