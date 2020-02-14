@@ -7,10 +7,12 @@ import com.juiceos.kotlincv.db.entity.CVEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 // TODO: change this to singleton
 class CVService {
 
+    private var query: String? = null
     private lateinit var cvData:MutableLiveData<CVEntity>
 
     private val cvService by lazy {
@@ -35,29 +37,78 @@ class CVService {
             cvService.getCV()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({cv -> updateCV(cv)}, {error -> showError(error)})
+                .subscribe({cv -> updateCV(cv, query)}, {error -> showError(error)})
 
     }
 
     private fun showError(error: Throwable?) {
 
+        if (error != null) {
+            Log.e("CV",  error.message ?: "Unknown cv download error")
+        }
+
         val errorCv = CVEntity()
         errorCv.error = 1
-        errorCv.errorMessage = "Unable to download cv"
+        errorCv.message = "Unable to download cv"
 
         cvData.value = errorCv
 
     }
 
-    private fun updateCV(cv: CVEntity?) {
+    private fun updateCV(cv: CVEntity?, query: String?) {
 
-        cvData.value = cv
+        cvData.value = applyCVFilter(cv, query)
+
+    }
+
+    private fun applyCVFilter(cv: CVEntity?, query: String?): CVEntity? {
+
+        if(cv == null)
+            return  null
+
+        if(query != null && query.isNotEmpty()){
+
+            for (cvIdx in cv.sections.size - 1 downTo 0){
+
+                if(!foundText(cv.sections[cvIdx].title, query))
+                    if(!foundText(cv.sections[cvIdx].details, query))
+                        cv.sections.removeAt(cvIdx)
+
+            }
+
+            cv.message = "Found ${cv.sections.size} results in filter"
+
+        } else
+            cv.message = null
+
+        return  cv
+
+    }
+
+    private fun foundText(hay: String?, needle: String?): Boolean {
+
+        if(hay == null)
+            return false
+
+        if(needle == null)
+            return  false
+
+        return hay.toLowerCase(Locale.US).contains(needle.toLowerCase(Locale.US))
 
     }
 
     fun dispose(){
         disposable?.dispose()
         disposable = null
+    }
+
+    fun filter(query: String) {
+
+        this.query = query
+
+        // download cv again...
+        downloadCV()
+
     }
 
 }

@@ -26,4 +26,10 @@ class CVViewModel(application: Application) : AndroidViewModel(application){
         cvService?.dispose()
     }
 
+    fun filter(query: String) {
+
+        cvService?.filter(query)
+
+    }
+
 }

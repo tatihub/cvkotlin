@@ -6,4 +6,7 @@
     <string name="cv_untiled">Untitled</string>
     <string name="section_title">Section Title</string>
     <string name="seciton_details">Section Details</string>
+    <string name="mainActivityCVSearchHint">Search CV</string>
+    <string name="cv_loading">Loading cv...</string>
+    <string name="cv_ready">CV Ready</string>
 </resources>

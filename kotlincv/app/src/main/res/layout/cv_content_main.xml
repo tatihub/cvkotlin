@@ -7,13 +7,54 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:background="@color/gray">
+
+    <EditText
+        android:id="@+id/mainActivityCvSearchText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="@dimen/mainActivityViewMargin"
+        android:hint="@string/mainActivityCVSearchHint"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        style="@style/CV.TextField"
+        />
+
+    <ImageView
+        android:id="@+id/mainActivityCvSearchButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_search_black_24dp"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@+id/mainActivityCvSearchText"
+        app:layout_constraintBottom_toBottomOf="@+id/mainActivityCvSearchText"
+        app:layout_constraintRight_toRightOf="@+id/mainActivityCvSearchText"
+        android:contentDescription="@string/mainActivityCVSearchHint"
+        android:layout_marginEnd="5dp"
+        />
+
+    <TextView
+        android:id="@+id/mainActivityMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/mainActivityCvSearchText"
+        android:layout_marginBottom="@dimen/mainActivityViewMargin"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:visibility="gone"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainActivitySectionsGrid"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainActivityMessage"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/mainActivityViewMargin"
+        android:layout_marginBottom="@dimen/mainActivityViewMargin"
         />
 
     <ProgressBar
@@ -25,15 +66,6 @@
         android:layout_width="@dimen/cv_progress_bar_size"
         android:layout_height="@dimen/cv_progress_bar_size"
         style="@style/Widget.AppCompat.ProgressBar"
-        />
-
-    <TextView
-        android:id="@+id/mainActivityCvError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="@dimen/cv_section_padding"
-        android:textColor="@android:color/holo_red_dark"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/cv_section_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -12,30 +11,43 @@
         android:text="@string/cv_section_date"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:padding="10dp"
         />
 
-    <TextView
-        android:id="@+id/cvSectionTitle"
+    <LinearLayout
+        android:id="@+id/cvSectionDetailsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cv_section_title"
-        android:textStyle="bold"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/cvSectionDate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="10dp"
-        android:textSize="@dimen/cv_section_text_size"
-        android:contentDescription="@string/section_title"
-        />
+        android:background="@drawable/cv_section_back"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:padding="10dp"
+        >
 
-    <TextView
-        android:id="@+id/cvSectionDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/cvSectionTitle"
-        app:layout_constraintLeft_toLeftOf="@id/cvSectionTitle"
-        android:textSize="@dimen/cv_details_text_size"
-        android:contentDescription="@string/seciton_details"
-        />
+        <TextView
+            android:id="@+id/cvSectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cv_section_title"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/cv_section_text_size"
+            android:contentDescription="@string/section_title"
+            android:textColor="@color/colorPrimaryDark"
+            />
+
+        <TextView
+            android:id="@+id/cvSectionDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/cv_details_text_size"
+            android:contentDescription="@string/seciton_details"
+            />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

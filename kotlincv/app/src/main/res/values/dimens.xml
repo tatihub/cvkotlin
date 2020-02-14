@@ -3,4 +3,5 @@
     <dimen name="cv_section_padding">15dp</dimen>
     <dimen name="cv_section_text_size">20sp</dimen>
     <dimen name="cv_details_text_size">18sp</dimen>
+    <dimen name="mainActivityViewMargin">10dp</dimen>
 </resources>
